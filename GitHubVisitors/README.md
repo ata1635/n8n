@@ -4,7 +4,7 @@ An n8n workflow that automatically logs visits to my GitHub Pages project using 
 Each incoming request is recorded in Google Sheets, and an email notification is sent — fully automated.
 
 ## 🚀 Features
-- 🪝 **Webhook Trigger** – activated whenever a request from my Card Games [github.io](https://github.com/ata1635/CardGames) page is received  
+- 🪝 **Webhook Trigger** – activated whenever a request from my [Card Games](https://github.com/ata1635/CardGames) github.io page is received  
 - 📄 **Google Sheets logging** – stores timestamp, referrer, user agent, country and language  
 - 📧 **Email notifications** – instantly sends visitor details  
 - 🤖 **Automation with n8n** – no manual work required
