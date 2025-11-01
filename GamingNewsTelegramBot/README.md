@@ -1,7 +1,7 @@
 # 🎮 Gaming News Telegram Bot
 
-An intelligent n8n workflow that connects to a Telegram bot to fetch, filter, summarize, and deliver the latest **gaming news** — powered by AI.  
-The workflow automatically detects and filters out **sponsored or promotional articles**, so you only get real, unbiased content.
+An intelligent n8n workflow that connects to a Telegram bot to fetch, filter, summarize, and deliver the latest gaming news — powered by AI.  
+The workflow automatically detects and filters out sponsored or promotional articles, so you only get real, unbiased content.
 
 ## 🚀 Features
 - 💬 **Telegram Bot integration** – chat with the bot to request gaming news  
