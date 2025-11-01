@@ -32,5 +32,5 @@ The workflow automatically detects and filters out **sponsored or promotional ar
 
 ## 🧩 Workflow Structure
 <p align="center">
-  <img src="../images/GamingNewsBotWorkflow.png">
+  <img src="./images/GamingNewsBotWorkflow.png">
 </p>
