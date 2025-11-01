@@ -1,0 +1,270 @@
+{
+  "name": "GitHub Page Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "github-visits",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "311d3d59-cc84-41d3-8508-5b75c9773469",
+      "name": "Webhook",
+      "webhookId": "1c14b377-8d47-4d5c-a112-5aff6408e77c"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7be79c5-db6c-439b-99bf-fc6fc9ba600c",
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}\n",
+              "type": "string"
+            },
+            {
+              "id": "8816776c-6576-4532-801d-507d544fb694",
+              "name": "headers.referer",
+              "value": "={{ $json.headers.referer }}",
+              "type": "string"
+            },
+            {
+              "id": "a8d7c22b-06b6-4249-8541-a732ed0cb225",
+              "name": "headers['user-agent']",
+              "value": "={{ $json.headers['user-agent'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1322dae2-b581-4aac-86f4-87829d7f6e1a",
+              "name": "headers['cf-ipcountry']",
+              "value": "={{ $json.headers['cf-ipcountry'] }}",
+              "type": "string"
+            },
+            {
+              "id": "16af43c1-1da4-4b0f-9526-93eaf4c2c7e1",
+              "name": "headers['accept-language']",
+              "value": "={{ $json.headers['accept-language'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "54d821a4-8e2f-4080-b801-c192edf1fb58",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1C-Z1MyKzm5U8KaS_79xyCBr5cjh7JM39ypcN4PCxSlw",
+          "mode": "list",
+          "cachedResultName": "GitHub Visits",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1C-Z1MyKzm5U8KaS_79xyCBr5cjh7JM39ypcN4PCxSlw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1C-Z1MyKzm5U8KaS_79xyCBr5cjh7JM39ypcN4PCxSlw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "referrer": "={{ $json.headers.referer }}",
+            "userAgent": "={{ $json.headers['user-agent'] }}",
+            "country": "={{ $json.headers['cf-ipcountry'] }}",
+            "language": "={{ $json.headers['accept-language'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "referrer",
+              "displayName": "referrer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "userAgent",
+              "displayName": "userAgent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language",
+              "displayName": "language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "22516adb-7b6b-49df-b1f6-e98161c72f75",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "aN6c0nexYHBrKtc4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "atakan_berk.rana@hotmail.com",
+        "subject": "Ein neuer Besucher auf github.io/CardGames!",
+        "message": "=<b>Neuer Besucher auf deiner GitHub/CardGames-Seite</b><br><br>\n<b>Zeitpunkt:</b> {{$json.timestamp}}<br>\n<b>Referrer:</b> {{$json.referrer}}<br>\n<b>Land:</b> {{$json.country}}<br>\n<b>Sprache:</b> {{$json.language}}<br>\n<b>Browser:</b> {{$json.userAgent}}<br>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "c84d5653-3815-4d5b-b916-e2c425cc837e",
+      "name": "Send a message",
+      "webhookId": "cc35ab3a-bf29-4f42-be61-b8edf4b6cfb4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "a87cueICVfnqiVyL",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "ata1635.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0",
+            "accept": "image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5",
+            "accept-encoding": "gzip, br",
+            "accept-language": "en-US,en;q=0.5",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "2a0a:a549:46a3:0:d507:b24a:3ed2:e61b",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "DE",
+            "cf-ray": "996c1e77e16d2622-DUS",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "priority": "u=5, i",
+            "referer": "https://ata1635.github.io/",
+            "sec-fetch-dest": "image",
+            "sec-fetch-mode": "no-cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "2a0a:a549:46a3:0:d507:b24a:3ed2:e61b, 172.70.220.10",
+            "x-forwarded-host": "ata1635.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-24-5cd9cc5d7f-xxgbz",
+            "x-is-trusted": "yes",
+            "x-real-ip": "2a0a:a549:46a3:0:d507:b24a:3ed2:e61b"
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://ata1635.app.n8n.cloud/webhook-test/github-visits",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "187f4fe9-d892-45a4-950c-44bb0e1817ef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "19f73876264476abe725354cb36b914e3acab4d397b5d7ba3acc0a57b08395d5"
+  },
+  "id": "mtFK7kYoFXvzV2Ga",
+  "tags": []
+}

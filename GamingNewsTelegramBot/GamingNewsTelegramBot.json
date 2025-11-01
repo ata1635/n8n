@@ -1,0 +1,295 @@
+{
+  "name": "Gaming News Telegram Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8752fc88-2ef3-4433-8c3b-31f5f5d853ad",
+              "name": "urls",
+              "value": "=[\n  \"https://feeds.feedburner.com/ign/all\",\n  \"https://www.gamestar.de/rss/gamestar.rss\",\n  \"https://www.pcgamer.com/rss/\",\n  \"https://kotaku.com/rss\",\n  \"https://www.eurogamer.net/feed\"\n]\n",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -160
+      ],
+      "id": "f80d74bf-293d-44dd-be71-7386e21d06cb",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "urls",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -160
+      ],
+      "id": "35f61b77-e03b-421f-aba3-6e3c92bf3fa4",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.urls }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        -160
+      ],
+      "id": "6cf28719-f3d9-4884-a7ed-0b1f5064d9f7",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "type": "=random",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        912,
+        -160
+      ],
+      "id": "734a07de-c2f1-4f68-968a-e9b60191e79d",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        -160
+      ],
+      "id": "7ed54a76-6673-40e3-bfae-b422dd38aa02",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Du bist ein Nachrichten-Filter für Gaming-News.\n\nAnalysiere die folgenden Artikel (im JSON-Format):\n{{ JSON.stringify($json) }}\n\n1. Entferne alle Artikel, die Werbung, Deals, gesponserte Inhalte enthalten.\n2. Fasse die echten Artikel kurz in ungefähr 10 Zeilen zusammen.\n3. Gib das Ergebnis im HTML-Format aus, das direkt von Telegram gerendert werden kann.\n\nVerwende beim Schreiben bitte folgende Regeln:\n- Verwende <b>...</b> für den Titel.\n- Verwende <a href=\"URL\">Artikel lesen</a> für den Link.\n- Verwende KEINE <br> oder \\n, sondern echte Zeilenumbrüche (Enter).\n- Verwende keine anderen HTML-Tags außer <b>, <i> und <a>.\n- Trenne mehrere Artikel mit einer Leerzeile.\n\nBeispiel für einen Artikel:\n\n<b>[Titel]</b>\n[Kurze Zusammenfassung, 1–2 Sätze]\n<a href=\"[Link]\">Artikel lesen</a>\n\nWenn keine echten Artikel gefunden wurden, mache nichts.\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1360,
+        -160
+      ],
+      "id": "047008db-35f8-4996-ac8c-d8d133339213",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        64
+      ],
+      "id": "e70cf3a5-8a25-4b9b-b66c-35dc71fe6b7f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GoB0a3B3yRZSMgWL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        -160
+      ],
+      "id": "ea923e67-3c5a-4b44-a485-d4643d8802ac",
+      "name": "Telegram Trigger",
+      "webhookId": "22768aea-444a-47cb-9a43-3c81937eea96",
+      "credentials": {
+        "telegramApi": {
+          "id": "yeDKfYm9iMvFbfk4",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=650952160",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1712,
+        -160
+      ],
+      "id": "c78ac697-3261-4dea-9ddd-489efa666bbd",
+      "name": "Send a text message",
+      "webhookId": "c4c11bb9-6da4-4a17-ab81-4a86872893ec",
+      "credentials": {
+        "telegramApi": {
+          "id": "yeDKfYm9iMvFbfk4",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 112635693,
+          "message": {
+            "message_id": 2,
+            "from": {
+              "id": 650952160,
+              "is_bot": false,
+              "first_name": "عطاء البوخَيْمي",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 650952160,
+              "first_name": "عطاء البوخَيْمي",
+              "type": "private"
+            },
+            "date": 1761899251,
+            "text": "hi"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ee0df24e-c7e8-4eda-9bd0-8b147889b867",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "19f73876264476abe725354cb36b914e3acab4d397b5d7ba3acc0a57b08395d5"
+  },
+  "id": "RlZkBUeWkQqjdSVZ",
+  "tags": []
+}
