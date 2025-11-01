@@ -1,7 +1,7 @@
 # 📊 GitHub Visitors Tracker
 
 An n8n workflow that automatically logs visits to my GitHub Pages project using an HTTP Webhook.  
-Each incoming request is recorded in Google Sheets, and an email notification is sent — fully automated and code-free.
+Each incoming request is recorded in Google Sheets, and an email notification is sent — fully automated.
 
 ## 🚀 Features
 - 🪝 **Webhook Trigger** – activated whenever a request from my Card Games [github.io](https://github.com/ata1635/CardGames) page is received  
