@@ -26,8 +26,8 @@ The workflow automatically detects and filters out **sponsored or promotional ar
 ## 💬 Telegram Chat Examples
 
 <p align="center">
-  <img src="../images/GamingNewsBotChat2.png">
-  <img src="../images/GamingNewsBotChat1.png">
+  <img src="./images/GamingNewsBotChat2.png">
+  <img src="./images/GamingNewsBotChat1.png">
 </p>
 
 ## 🧩 Workflow Structure
