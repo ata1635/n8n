@@ -24,7 +24,7 @@ Each incoming request is recorded in Google Sheets, and an email notification is
 
 ## 🔗 Webhook Integration
 
-The workflow is triggered via an HTTP Webhook embedded in another project:  
+The workflow is triggered via an HTTP Webhook embedded in the CardGames project:  
 ➡️ [View implementation in CardGames index.html (line 180)](https://github.com/ata1635/CardGames/blob/main/index.html#L180)
 
 ```html
